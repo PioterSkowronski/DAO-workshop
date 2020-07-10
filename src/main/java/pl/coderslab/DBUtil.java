@@ -1,6 +1,10 @@
 package pl.coderslab;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class DBUtil {
 
@@ -12,11 +16,11 @@ public class DBUtil {
         return DriverManager.getConnection(DB_URL, DB_USER, DB_PASS);
     }
 
-    public static void insert(Connection conn, String query, String... params) {
+    public static void insert(Connection conn, String query, String email, String name, String password) {
         try (PreparedStatement statement = conn.prepareStatement(query)) {
-            for (int i = 0; i < params.length; i++) {
-                statement.setString(i + 1, params[i]);
-            }
+                statement.setString(1, email);
+            statement.setString(2,name);
+            statement.setString(3, password);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,4 +52,6 @@ public class DBUtil {
             e.printStackTrace();
         }
     }
+
+
 }
